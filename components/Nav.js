@@ -1,11 +1,14 @@
 import Link from 'next/link';
+import { useContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 function Nav() {
-  // const [user, loading] = useAuthState(auth);
+  const { setPopup } = useContext(AppContext);
+  
   return (
    <nav className='flex max-w- justify-between items-center py-10'>
        <Link href="/">
-            <button className='text-lg font-medium'>Developer Task</button>
+            <button className='text-lg font-medium'>DevTask</button>
        </Link>
        <ul className='flex items-center gap-10'>
            {false && (
@@ -15,9 +18,7 @@ function Nav() {
            )}
            {true && (
              <div className='flex items-center gap-6'>
-               <Link href="/post">
-                <button className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project</button>
-               </Link>
+                <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project</button>
              </div>
            )}
        </ul>
