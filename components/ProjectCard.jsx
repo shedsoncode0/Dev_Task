@@ -2,7 +2,7 @@ import React from 'react'
 
 function ProjectCard() {
   return (
-    <div className='bg-white drop-shadow-lg rounded-md overflow-hidden max-w-xs w-full'>
+    <div className='bg-white drop-shadow-lg hover:shadow-xl transition-all rounded-md overflow-hidden max-w-xs w-full cursor-pointer'>
         <div className='flex text-white'>
             <h1 className='bg-cyan-500 font-medium text-sm px-2 rounded-tr-md'>Full-Stack</h1>
         </div>
