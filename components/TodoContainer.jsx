@@ -11,10 +11,10 @@ function TodoContainer() {
 
         <div className='w-full flex justify-between'>
             <div className='flex-1 space-y-10'>
-                <TodoCard />
-                <TodoCard />
-                <TodoCard />
-                <TodoCard />
+                <TodoCard title={"Delete my name"}/>
+                <TodoCard title={"Delete my name"}/>
+                <TodoCard title={"Delete my name"}/>
+                <TodoCard title={"Delete my name"}/>
             </div>
 
             <div className='flex-1 max-w-[280px]'>

@@ -9,7 +9,7 @@ function Tracker() {
         <div className='flex flex-col space-y-3 p-6'>
 
             <div className='flex items-center space-x-2'>
-                <h1 className='font-medium'>Complited</h1>
+                <h1 className='font-medium'>Completed</h1>
                 <p className='flex-1 min-w-7 h-1 bg-gray-300'></p>
                 <h1 className='w-9 h-9 bg-green-600 rounded-md grid place-items-center font-medium text-white'>12</h1>
             </div>
