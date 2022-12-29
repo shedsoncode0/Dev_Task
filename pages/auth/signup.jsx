@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 import { BsGenderAmbiguous, BsGoogle, BsGenderMale } from 'react-icons/bs'
 import { AiFillApple, AiOutlineUser, AiOutlineCalendar } from 'react-icons/ai'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FiLock } from 'react-icons/fi'
+import { AppContext } from '../../contexts/AppContext'
 
 function Signup() {
+  const { setUser, user, setError } = useContext(AppContext);
+  const { email, fullname, password } = user;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userDetails = { email, fullname, password }
+
+    const response = await fetch('http://localhost:5000/api/auth/register', {
+      method: "POST",
+      body: JSON.stringify(userDetails),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }); 
+
+    const data = await response.json();
+
+    if (response.ok) setError(json.error);
+  }
+
+  const handleChange = (e) => {
+    setUser(prev => ({...prev, [e.target.name]:e.target.value}));
+  }
+
+  console.log(user)
+
   return (
     <div className=''>
       <div className='flex justify-center items-center flex-col text-center gap-2 mt-7'>
@@ -24,22 +51,22 @@ function Signup() {
               </h1>
             </div>
 
-            <form className='w-full flex flex-col gap-8' action="" method="post">
+            <form className='w-full flex flex-col gap-8' method="post" onSubmit={handleSubmit}>
               <div className='flex items-center w-full border-2 px-4 h-11 rounded-lg'>
                 <MdAlternateEmail color='#4E5D78' size='18' />
-                <input className='px-2 w-full outline-none font-medium text-[15px]' type="email" name='email' placeholder='Your Email' required/>
+                <input onChange={handleChange} className='px-2 w-full outline-none font-medium text-[15px]' type="email" name='email' placeholder='Your Email' required/>
               </div>
               <div className='flex items-center w-full border-2 px-4 h-11 rounded-lg'>
                 <AiOutlineUser color='#4E5D78' size='18'/>
-                <input className='px-2 w-full outline-none font-medium text-[15px]' type="text" name='text' placeholder='Your Name' />
+                <input onChange={handleChange} className='px-2 w-full outline-none font-medium text-[15px]' type="text" name='fullname' placeholder='Your Fullname' />
               </div>
               <div className='flex items-center w-full border-2 px-4 h-11 rounded-lg'>
                 <FiLock color='#4E5D78' size='18'/>
-                <input className='px-2 w-full outline-none font-medium text-[15px]' type="password" name='password' placeholder='Create Password' />
+                <input onChange={handleChange} className='px-2 w-full outline-none font-medium text-[15px]' type="password" name='password' placeholder='Create Password' />
               </div>
-              <Link href={'/dashboard'}>
+              {/* <Link href={'/dashboard'}> */}
                 <button type='submit' className='w-full h-11 rounded-lg bg-cyan-500 text-white font-medium'>Sign Up</button>
-              </Link>
+              {/* </Link> */}
             </form>
             <h1 className='mt-2 text-[14px] font-semibold text-[#4E5D78]'>Already have an account? <span className='text-cyan-500 ml-2'> <Link href="/auth/login" legacyBehavior>Sign In</Link></span></h1>
           </div>
