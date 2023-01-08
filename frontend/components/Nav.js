@@ -2,13 +2,26 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
+import {motion as m} from 'framer-motion';
+
 function Nav() {
   const { setPopup, currentPage } = useContext(AppContext);
 
   return (
    <nav className='flex max-w- justify-between items-center py-10'>
        <Link href="/">
-            <button className='text-lg font-medium'>DevTask</button>
+            <m.button
+             initial={{gap: '10px'}}
+             animate={{gap: 0}}
+             transition={{duration: 0.40, ease: "easeIn"}}
+             className='text-xl font-semibold flex space-x-3'>
+              Dev
+              <m.span 
+               className=''
+              >
+                Task
+              </m.span>
+            </m.button>
        </Link>
 
        <ul className='flex items-center gap-10'>
@@ -19,21 +32,21 @@ function Nav() {
            ):""}
 
            {currentPage === "dashboard" ? (
-             <div className='flex items-center gap-6'>
+             <li className='flex items-center gap-6'>
                 <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project</button>
-             </div>
+             </li>
            ):""}
 
            {currentPage === "project_type" ? (
-             <div className='flex items-center gap-6'>
+             <li className='flex items-center gap-6'>
                 <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project Type</button>
-             </div>
+             </li>
            ):""}
 
            {currentPage === "task" ? (
-             <div className='flex items-center gap-6'>
+             <li className='flex items-center gap-6'>
                 <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Task</button>
-             </div>
+             </li>
            ):""}
        </ul>
 

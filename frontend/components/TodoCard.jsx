@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 
 import { HiDotsHorizontal } from 'react-icons/hi'
 
-function TodoCard({title, time, desc}) {
-    const [ decs, setDesc ] = useState(false);
+function TodoCard({title, time, description}) {
+    const [ desc, setDesc ] = useState(false);
 
     const openDesc = () => {
-        if (decs === true) setDesc(false)
+        if (desc === true) setDesc(false)
         else setDesc(true);
     }
 
@@ -20,8 +20,8 @@ function TodoCard({title, time, desc}) {
                 <HiDotsHorizontal size={23} className/>
             </div>
             <div className='flex-1 px-4 text-[#4E5D78] flex-col items-center py-2 transition-all'>
-                <h1 className='font-bold '>{title} <span onClick={() => openDesc()} className='text-gray-300 text-[12px] cursor-pointer'>{decs ? "less" : "more"}</span></h1>
-                <p className={decs ? "mt-2 block" : "hidden"}>{decs}</p>
+                <h1 className='font-bold'>{title} <span onClick={() => openDesc()} className='text-gray-300 text-[12px] cursor-pointer ml-2'>{desc ? "less" : "more"}</span></h1>
+                <p className={desc ? "mt-2 block" : "hidden"}>{description}</p>
             </div>
         </div>
     </div>

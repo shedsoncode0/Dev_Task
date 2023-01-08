@@ -1,37 +1,51 @@
-import React, { useContext } from 'react'
-import Link from 'next/link'
-import { BsGenderAmbiguous, BsGoogle, BsGenderMale } from 'react-icons/bs'
-import { AiFillApple, AiOutlineUser, AiOutlineCalendar } from 'react-icons/ai'
+import React, { useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+// React Icons
+import { BsGoogle } from 'react-icons/bs'
+import { AiFillApple, AiOutlineUser } from 'react-icons/ai'
 import { MdAlternateEmail } from 'react-icons/md'
 import { FiLock } from 'react-icons/fi'
 import { AppContext } from '../../contexts/AppContext'
 
+// Axios Package
+import axios from 'axios'
+
 function Signup() {
-  const { setUser, user, setError } = useContext(AppContext);
-  const { email, fullname, password } = user;
+  const router = useRouter();
+
+  const { setFormData, formData, currentPage, setCurrentPage, changeCurrentPageName } = useContext(AppContext);
+
+  const { email, fullname, password } = formData;
+
+  useEffect(() => {
+    changeCurrentPageName('');
+  }, [currentPage, setCurrentPage]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userDetails = { email, fullname, password }
+    const userDetails = {
+       email, 
+       fullname, 
+       password 
+    }
 
-    const response = await fetch('http://localhost:5000/api/auth/register', {
-      method: "POST",
-      body: JSON.stringify(userDetails),
-      headers: {
-        "Content-Type": "application/json"
+    const apiEndPoint = "http://localhost:5000/api/auth/register";
+
+    const response = await axios.post(apiEndPoint, userDetails)
+    
+    if(response.data) {
+      if(typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(response.data));
+
+          router.push('/dashboard')
       }
-    }); 
-
-    const data = await response.json();
-
-    if (response.ok) setError(json.error);
+    }
   }
 
   const handleChange = (e) => {
-    setUser(prev => ({...prev, [e.target.name]:e.target.value}));
+    setFormData(prev => ({...prev, [e.target.name]:e.target.value}));
   }
-
-  console.log(user)
 
   return (
     <div className=''>
@@ -68,7 +82,7 @@ function Signup() {
                 <button type='submit' className='w-full h-11 rounded-lg bg-cyan-500 text-white font-medium'>Sign Up</button>
               {/* </Link> */}
             </form>
-            <h1 className='mt-2 text-[14px] font-semibold text-[#4E5D78]'>Already have an account? <span className='text-cyan-500 ml-2'> <Link href="/auth/login" legacyBehavior>Sign In</Link></span></h1>
+            <h1 className='mt-2 text-[14px] font-semibold text-[#4E5D78]'>Already have an account? <span className='text-cyan-500 ml-2'>Sign In</span></h1>
           </div>
       </div>
     </div>

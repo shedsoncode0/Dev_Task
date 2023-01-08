@@ -14,6 +14,10 @@ function Popup() {
     })
   }
 
+  const handleProjectSubmit = (e) => {
+    e.preventDefault();
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
   }

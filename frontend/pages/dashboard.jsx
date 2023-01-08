@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import TodoContainer from '../components/TodoContainer'
 import { HiOutlineFilter } from 'react-icons/hi'
 import ProjectCard from '../components/ProjectCard'
+import { AppContext } from '../contexts/AppContext';
 
 function Dashboard() {
+    const { currentPage, setCurrentPage, changeCurrentPageName } = useContext(AppContext);
+
+    useEffect(() => {
+        changeCurrentPageName('dashboard');
+    }, [currentPage, setCurrentPage]);
+
   return (
     <div className='h-full'>
         <div className='flex w-full justify-between items-center space-x-4'>
@@ -16,15 +23,9 @@ function Dashboard() {
         </div>
 
         <div className='py-10 flex w-full flex-1 justify-center gap-20 flex-wrap'>
-            {/* <h1 className='text-center py-48 text-3xl font-bold text-slate-200'>
+            <h1 className='text-center py-48 text-3xl font-bold text-slate-200'>
                 You have no project 
-            </h1> */}
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
+            </h1>
         </div>
     </div>
   )
