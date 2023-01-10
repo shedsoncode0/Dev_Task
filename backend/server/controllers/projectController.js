@@ -8,7 +8,7 @@ const User = require('../models/UserModel');
  * @access Private
  */
 const getProjects = async (req, res) => {
-    const projects = await Project.find({ user: req.user.id });
+    const projects = await Project.find({ user: req.user.id }).sort({createdAt: -1});
 
     if (projects.length === 0) {
         res.status(200).json({message: "user has no projects"});

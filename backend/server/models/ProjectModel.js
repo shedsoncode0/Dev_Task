@@ -21,6 +21,10 @@ const ProjectSchema = new mongoose.Schema({
         type: String,
          required: true,
     },
+    important: {
+        type: Boolean,
+        default: false
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

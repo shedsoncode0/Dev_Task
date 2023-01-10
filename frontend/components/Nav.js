@@ -33,19 +33,19 @@ function Nav() {
 
            {currentPage === "dashboard" ? (
              <li className='flex items-center gap-6'>
-                <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project</button>
+                <button onClick={() => setPopup(true)} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project</button>
              </li>
            ):""}
 
            {currentPage === "project_type" ? (
              <li className='flex items-center gap-6'>
-                <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project Type</button>
+                <button onClick={() => setPopup(true)} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Project Type</button>
              </li>
            ):""}
 
            {currentPage === "task" ? (
              <li className='flex items-center gap-6'>
-                <button onClick={() => setPopup({show: true, page: "Projects"})} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Task</button>
+                <button onClick={() => setPopup(true)} className='font-medium bg-cyan-500 text-white py-2 px-4 rounded-md'>Add Task</button>
              </li>
            ):""}
        </ul>

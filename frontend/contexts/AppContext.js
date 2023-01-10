@@ -4,11 +4,27 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
+    const [ popup, setPopup ] = useState(false);
+    const [ currentPage, setCurrentPage ] = useState('');
+    const [error, setError] = useState(null);
+    const [projects, setProjects] = useState([]);
+
+    // Save user to LocalStorage
     let user;
     if (typeof window !== "undefined") {
         user = JSON.parse(localStorage.getItem('user'));
     }
 
+    const [projectFormData, setProjectFormData] = useState({
+        members: "",
+        startDate: "",
+        deadLine: "",
+        pay: "",
+        name: "",
+        important: true,
+    });
+
+    // User Sign Up details
     const [ formData, setFormData ] = useState({
         email: "",
         fullname: "",
@@ -16,10 +32,6 @@ export const AppProvider = ({ children }) => {
     });
 
     let currentPageRoute;
-
-    const [ popup, setPopup ] = useState({page: "", show: false});
-    const [ currentPage, setCurrentPage ] = useState('');
-    const [error, setError] = useState(null);
 
     // get current page name in Localhost
     useEffect(() => {
@@ -42,6 +54,10 @@ export const AppProvider = ({ children }) => {
          value={{
             formData,
             setFormData,
+            projectFormData,
+            setProjectFormData,
+            projects,
+            setProjects,
             user,
             popup,
             setPopup,
