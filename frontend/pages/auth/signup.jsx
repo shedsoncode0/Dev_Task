@@ -10,6 +10,7 @@ import { AppContext } from '../../contexts/AppContext'
 
 // Axios Package
 import axios from 'axios'
+import Link from 'next/link'
 
 function Signup() {
   const router = useRouter();
@@ -30,7 +31,7 @@ function Signup() {
        password 
     }
 
-    const apiEndPoint = "http://localhost:5000/api/auth/register";
+    const apiEndPoint = "https://api-devtask.onrender.com/api/auth/register";
 
     const response = await axios.post(apiEndPoint, userDetails)
     
@@ -82,7 +83,7 @@ function Signup() {
                 <button type='submit' className='w-full h-11 rounded-lg bg-cyan-500 text-white font-medium'>Sign Up</button>
               {/* </Link> */}
             </form>
-            <h1 className='mt-2 text-[14px] font-semibold text-[#4E5D78]'>Already have an account? <span className='text-cyan-500 ml-2'>Sign In</span></h1>
+            <h1 className='mt-2 text-[14px] font-semibold text-[#4E5D78]'>Already have an account? <Link href="login"><span className='text-cyan-500 ml-2'>Sign In</span></Link> </h1>
           </div>
       </div>
     </div>
