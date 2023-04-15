@@ -1,20 +1,24 @@
 const Project = require("../models/ProjectModel");
 const User = require("../models/UserModel");
+const ProjectTypeModel = require("../models/project_type_model");
 
 /**
  * @description Get all users projects
  * @route Get /api/project/all
  * @access Private
  */
-const getProjects = async (req, res) => {
-  const projects = await Project.find({ user: req.user.id }).sort({
-    createdAt: -1,
-  });
+const getProjectTypes = async (req, res) => {
+  const { projectId } = res.body;
+  const projectTypes = await ProjectTypeModel.find({ project: projectId }).sort(
+    {
+      createdAt: -1,
+    }
+  );
 
-  if (projects.length === 0) {
-    res.status(200).json({ message: "user has no projects" });
+  if (projectTypes.length === 0) {
+    res.status(200).json({ message: "This project has no types" });
   } else {
-    res.status(200).json(projects);
+    res.status(200).json(projectTypes);
   }
 };
 
@@ -23,33 +27,28 @@ const getProjects = async (req, res) => {
  * @route POST /api/project/create
  * @access Private
  */
-const createProject = async (req, res) => {
+const createProjectType = async (req, res) => {
   // Geting input from the request body
-  const { members, pay, startDate, deadLine, name } = req.body;
+  const { name } = req.body;
 
-  if (!pay || !startDate || !deadLine || !name) {
-    res.status(401).json("All fields are required");
+  if (!name) {
+    res.status(401).json("Name is requied");
     return;
   }
 
   // Check if Project name already exist
-  const projectExist = await Project.findOne({ name });
-  if (projectExist) {
-    res.status(401).json("Project with this name already exist");
+  const projectTypeExist = await ProjectTypeModel.findOne({ name });
+  if (projectTypeExist) {
+    res.status(401).json("ProjectType with this name already exist");
     return;
   }
 
-  const project = await Project.create({
-    user: req.user.id,
+  const projectType = await Project.create({
     name,
-    members,
-    startDate: startDate,
-    deadLine: deadLine,
-    pay,
   });
 
-  if (project) {
-    res.status(201).json({ project });
+  if (projectType) {
+    res.status(201).json({ projectType });
   }
 };
 
@@ -58,12 +57,12 @@ const createProject = async (req, res) => {
  * @route PUT /api/project/:id
  * @access Private
  */
-const updateProject = async (req, res) => {
+const updateProjectType = async (req, res) => {
   const id = req.params.id;
 
-  const project = await Project.findById(id);
+  const project = await projectType.findById(id);
 
-  const user = await User.findById(req.user.id);
+  const user = await project.findById(req.user.id);
 
   // Check if Project name already exist
   if (!project) {
@@ -120,9 +119,9 @@ const getSingleProject = async (req, res) => {
 };
 
 module.exports = {
-  getProjects,
-  createProject,
-  updateProject,
+  getProjectTypes,
+  createProjectType,
+  updateProjectType,
   deleteProject,
   getSingleProject,
 };

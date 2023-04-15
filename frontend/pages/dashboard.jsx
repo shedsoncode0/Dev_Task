@@ -5,8 +5,10 @@ import { AppContext } from "../contexts/AppContext";
 import { BsCurrencyDollar } from "react-icons/bs";
 import Popup from "../components/Popup";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 function Dashboard() {
+  const router = useRouter();
   const {
     currentPage,
     changeCurrentPageName,
@@ -72,11 +74,6 @@ function Dashboard() {
       .catch((error) => {
         console.log(error);
       });
-
-    // if (response.data) {
-    //   console.log(response.data);
-    //   setPopup(false);
-    // }
   };
 
   return (
@@ -108,6 +105,9 @@ function Dashboard() {
               pay={project.pay}
               project={project}
               important={project.important}
+              onClick={() => {
+                router.push(`project/${project._id}`);
+              }}
             />
           ))}
         </div>
