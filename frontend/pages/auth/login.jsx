@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { AppContext } from "../../contexts/AppContext";
 import axios from "axios";
+import Input from "../../components/Input";
 
 function Login() {
   const router = useRouter();
@@ -85,9 +86,9 @@ function Login() {
         </div>
 
         <form className="w-full flex flex-col gap-5" action="" method="post">
-          <div className="flex items-center w-full border-2 px-4 h-11 rounded-lg">
+          <div className="flex items-center w-full border-2 px-4 h-12 rounded-lg">
             <MdAlternateEmail color="#4E5D78" size="18" />
-            <input
+            <Input
               onChange={handleChange}
               className="px-2 w-full outline-none font-medium text-[15px]"
               type="email"
@@ -97,7 +98,7 @@ function Login() {
             />
           </div>
 
-          <div className="flex items-center w-full border-2 px-4 h-11 rounded-lg">
+          <div className="flex items-center w-full border-2 px-4 h-12 rounded-lg">
             <FiLock color="#4E5D78" size="18" />
             <input
               onChange={handleChange}

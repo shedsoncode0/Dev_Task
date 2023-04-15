@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext } from "react";
 
-import { BsCurrencyDollar } from 'react-icons/bs'
-import { HiOutlineUserGroup } from 'react-icons/hi'
-import { AppContext } from '../contexts/AppContext';
+import { BsCurrencyDollar } from "react-icons/bs";
+import { HiOutlineUserGroup } from "react-icons/hi";
+import { AppContext } from "../contexts/AppContext";
 
-function Popup({ handleSubmit, children }) {
+function Popup({ children }) {
   const { setPopup, currentPage } = useContext(AppContext);
 
   const closePopup = () => {
-    setPopup(false)
-  }
+    setPopup(false);
+  };
 
   return (
     // <div className='absolute w-screen h-screen bg-[#0000005d] top-0 left-0 flex justify-center items-center px-4'>
@@ -25,7 +25,7 @@ function Popup({ handleSubmit, children }) {
     //             <BsCurrencyDollar size={19}/>
     //           </div>
     //         </div>
-            
+
     //         <div className='flex items-center w-full space-x-4'>
     //           <h1 className='font-medium text-gray-300'>StartD</h1>
     //           <input className='border-2 px-2 h-11 rounded-lg w-full outline-none font-medium text-[15px]' type="date" name='startD'/>
@@ -78,16 +78,13 @@ function Popup({ handleSubmit, children }) {
     //       </form>
     //     ):""}
     // </div>
-    <div className='absolute w-screen h-screen bg-[#0000005d] top-0 left-0 flex justify-center items-center px-4'>
-      <form onSubmit={handleSubmit} className='w-full max-w-md bg-white flex flex-col space-y-5 p-10 rounded-md'>
-        {children}
-        <div className='flex justify-between relative pt-10'>
-            <button onClick={() => closePopup()} className='px-5 h-8 rounded-lg bg-red-500 text-white font-medium'>close</button>
-            <button type='submit' className='px-5 h-8 rounded-lg bg-blue-500 text-white font-medium'>create</button>
-        </div>
-      </form>
+    <div
+      onClick={closePopup}
+      className="absolute w-screen h-screen bg-[#0000005d] top-0 left-0 flex justify-center items-center px-4"
+    >
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
-  )
+  );
 }
 
-export default Popup
+export default Popup;

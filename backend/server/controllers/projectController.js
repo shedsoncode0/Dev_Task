@@ -1,6 +1,5 @@
-const Project = require('../models/ProjectModel');
-const User = require('../models/UserModel');
-
+const Project = require("../models/ProjectModel");
+const User = require("../models/UserModel");
 
 /**
  * @description Get all users projects
@@ -8,51 +7,51 @@ const User = require('../models/UserModel');
  * @access Private
  */
 const getProjects = async (req, res) => {
-    const projects = await Project.find({ user: req.user.id }).sort({createdAt: -1});
+  const projects = await Project.find({ user: req.user.id }).sort({
+    createdAt: -1,
+  });
 
-    if (projects.length === 0) {
-        res.status(200).json({message: "user has no projects"});
-    } else {
-        res.status(200).json(projects);
-    }
-}
-  
+  if (projects.length === 0) {
+    res.status(200).json({ message: "user has no projects" });
+  } else {
+    res.status(200).json(projects);
+  }
+};
+
 /**
  * @description Create new project
  * @route POST /api/project/create
  * @access Private
  */
 const createProject = async (req, res) => {
+  // Geting input from the request body
+  const { members, pay, startDate, deadLine, name } = req.body;
 
-    // Geting input from the request body
-    const { members, pay, startDate, deadLine, name } = req.body;
+  if (!pay || !startDate || !deadLine || !name) {
+    res.status(401).json("All fields are required");
+    return;
+  }
 
-    if (!pay || !startDate || !deadLine || !name) {
-        res.status(401);
-        throw new Error("All fields are required");
-    }
+  // Check if Project name already exist
+  const projectExist = await Project.findOne({ name });
+  if (projectExist) {
+    res.status(401).json("Project with this name already exist");
+    return;
+  }
 
-    // Check if Project name already exist
-    const projectExist = await Project.findOne({ name });
-    if (projectExist) {
-        res.status(401);
-        throw new Error("Project with this name already exist");
-    } 
+  const project = await Project.create({
+    user: req.user.id,
+    name,
+    members,
+    startDate: startDate,
+    deadLine: deadLine,
+    pay,
+  });
 
-    const project = await Project.create({
-        user: req.user.id,
-        name,
-        members,
-        startDate: startDate,
-        deadLine: deadLine,
-        pay
-    });
-
-    if (project) {
-        res.status(201)
-            .json({ project });
-    }
-}
+  if (project) {
+    res.status(201).json({ project });
+  }
+};
 
 /**
  * @description Update project
@@ -60,26 +59,26 @@ const createProject = async (req, res) => {
  * @access Private
  */
 const updateProject = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    const project = await Project.findById(id);
+  const project = await Project.findById(id);
 
-    const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id);
 
-    // Check if Project name already exist
-    if (!project) {
-        res.status(401);
-        throw new Error("Project with id not found");
-    } 
+  // Check if Project name already exist
+  if (!project) {
+    res.status(401).json("Project with id not found");
+  }
 
-    if (project.user.toString() !== user.id) {
-        res.status(401)
-        throw new Error("User not authorized");
-    }
+  if (project.user.toString() !== user.id) {
+    res.status(401).json("User not authorized");
+  }
 
-    const updatedProject = await Project.findByIdAndUpdate( id, req.body, {new: true});
-    res.status(200).json(updatedProject);
-}
+  const updatedProject = await Project.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+  res.status(200).json(updatedProject);
+};
 
 /**
  * @description Delete project
@@ -87,29 +86,29 @@ const updateProject = async (req, res) => {
  * @access Private
  */
 const deleteProject = async (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    const project = await Project.findById(id);
-    const user = await User.findById(req.user.id);
+  const project = await Project.findById(id);
+  const user = await User.findById(req.user.id);
 
-     // Check if Project exist
-     if (!project) {
-        res.status(401);
-        throw new Error("Project with id not found");
-    } 
+  // Check if Project exist
+  if (!project) {
+    res.status(401);
+    throw new Error("Project with id not found");
+  }
 
-    if (project.user.toString() !== user.id) {
-        res.status(401)
-        throw new Error("User not authorized");
-    }
+  if (project.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
 
-    const deletedProject = await Project.findByIdAndDelete( id );
-    res.status(200).json(deletedProject);
-}
+  const deletedProject = await Project.findByIdAndDelete(id);
+  res.status(200).json(deletedProject);
+};
 
 module.exports = {
-    getProjects,
-    createProject,
-    updateProject,
-    deleteProject
-}
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+};
