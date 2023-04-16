@@ -1,3 +1,5 @@
+/** @format */
+
 const router = require("express").Router();
 
 const { verifyAccessToken } = require("../../utils/jwt");
@@ -41,7 +43,7 @@ router.delete("/delete/:id", verifyAccessToken, deleteProject);
 //
 //
 // Get all users Projects
-router.get("/project/project_Type", getProjectTypes);
+router.post("/project_type/all", getProjectTypes);
 
 // Get all users Projects
 // router.get("/user/project/:projectId", getSingleProject);

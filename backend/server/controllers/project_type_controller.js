@@ -1,25 +1,23 @@
+/** @format */
+
 const Project = require("../models/ProjectModel");
 const User = require("../models/UserModel");
 const ProjectTypeModel = require("../models/project_type_model");
 
 /**
- * @description Get all users projects
+ * @description Get all users projects Type
  * @route Get /api/project/all
  * @access Private
  */
 const getProjectTypes = async (req, res) => {
-  const { projectId } = res.body;
+  const { projectId } = req.body;
   const projectTypes = await ProjectTypeModel.find({ project: projectId }).sort(
     {
       createdAt: -1,
     }
   );
 
-  if (projectTypes.length === 0) {
-    res.status(200).json({ message: "This project has no types" });
-  } else {
-    res.status(200).json(projectTypes);
-  }
+  res.status(200).json(projectTypes);
 };
 
 /**
