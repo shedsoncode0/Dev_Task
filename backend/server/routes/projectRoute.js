@@ -43,16 +43,16 @@ router.delete("/delete/:id", verifyAccessToken, deleteProject);
 //
 //
 // Get all users Projects
-router.post("/project_type/all", getProjectTypes);
+router.get("/project_type/all/:projectId", getProjectTypes);
 
 // Get all users Projects
 // router.get("/user/project/:projectId", getSingleProject);
 
 // Create Project
-router.post("project_type/create", createProjectType);
+router.post("/project_type/create", createProjectType);
 
 // Update Project
-router.put("project_type/update/:id", updateProjectType);
+router.put("/project_type/update/:id", updateProjectType);
 
 // Delete Project
 // router.delete("/delete/:id", verifyAccessToken, deleteProject);

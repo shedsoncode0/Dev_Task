@@ -1,8 +1,11 @@
+/** @format */
+
 import React, { useContext, useEffect, useState } from "react";
 import { HiOutlineFilter, HiOutlineUserGroup } from "react-icons/hi";
 import ProjectCard from "../components/ProjectCard";
 import { AppContext } from "../contexts/AppContext";
 import { BsCurrencyDollar } from "react-icons/bs";
+import { SpinnerDotted } from "spinners-react";
 import Popup from "../components/Popup";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -19,23 +22,34 @@ function Dashboard() {
     user,
     projects,
     setProjects,
+    PORT,
+    setProjectId,
   } = useContext(AppContext);
+  const [dataIsLoading, setDataIsLoading] = useState(false);
 
   const { members, pay, startDate, deadLine, name, important } =
     projectFormData;
 
   useEffect(() => {
     changeCurrentPageName("dashboard");
+    setDataIsLoading(true);
 
     async function getAllProjects() {
-      const apiEndPoint = "https://api-devtask.onrender.com/api/project/all";
+      const apiEndPoint = `${PORT}/api/project/all`;
 
-      const response = await axios.get(apiEndPoint, {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      });
-      setProjects(response.data);
+      await axios
+        .get(apiEndPoint, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          setProjects(response.data);
+          setDataIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     getAllProjects();
@@ -59,7 +73,7 @@ function Dashboard() {
       important,
     };
 
-    const apiEndPoint = "http://localhost:5000/api/project/create";
+    const apiEndPoint = `${PORT}/api/project/create`;
 
     await axios
       .post(apiEndPoint, projectDetails, {
@@ -93,28 +107,41 @@ function Dashboard() {
         </div>
       </div>
 
-      {projects.length > 0 ? (
-        <div className="py-10 flex w-full flex-1  gap-20 flex-wrap">
-          {projects.map((project) => (
-            <ProjectCard
-              key={project._id}
-              brandName={project.name}
-              members={project.members}
-              startD={project.startDate}
-              deadL={project.deadLine}
-              pay={project.pay}
-              project={project}
-              important={project.important}
-              onClick={() => {
-                router.push(`project/${project._id}`);
-              }}
-            />
-          ))}
+      {dataIsLoading ? (
+        <div className="w-full mt-32 flex-1 flex justify-center items-center">
+          <SpinnerDotted
+            size={70}
+            color="rgba(6, 182, 212, 0.5)"
+            thickness={200}
+          />
         </div>
       ) : (
-        <h1 className="w-full text-center py-40 text-2xl font-bold text-slate-200">
-          You have no Project
-        </h1>
+        <div>
+          {projects.length > 0 ? (
+            <div className="py-10 flex w-full flex-1  gap-20 flex-wrap">
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project._id}
+                  brandName={project.name}
+                  members={project.members}
+                  startD={project.startDate}
+                  deadL={project.deadLine}
+                  pay={project.pay}
+                  project={project}
+                  important={project.important}
+                  onClick={() => {
+                    router.push(`project/projectType`);
+                    setProjectId(project._id);
+                  }}
+                />
+              ))}
+            </div>
+          ) : (
+            <h1 className="w-full text-center py-40 text-2xl font-bold text-slate-200">
+              You have no Project
+            </h1>
+          )}
+        </div>
       )}
 
       {popup && (

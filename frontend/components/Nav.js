@@ -1,3 +1,5 @@
+/** @format */
+
 import Link from "next/link";
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
@@ -51,7 +53,7 @@ function Nav() {
               onClick={() => setPopup(true)}
               className="font-medium bg-cyan-500 text-white py-2 px-4 rounded-md"
             >
-              Add Project Type
+              Add Type
             </button>
           </li>
         ) : (

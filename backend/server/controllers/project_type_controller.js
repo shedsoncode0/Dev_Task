@@ -10,14 +10,23 @@ const ProjectTypeModel = require("../models/project_type_model");
  * @access Private
  */
 const getProjectTypes = async (req, res) => {
-  const { projectId } = req.body;
-  const projectTypes = await ProjectTypeModel.find({ project: projectId }).sort(
-    {
-      createdAt: -1,
-    }
-  );
+  const projectId = req.params.projectId;
+  if (projectId === "") {
+    res.status(400).json("Project id is empty");
+    return;
+  }
 
-  res.status(200).json(projectTypes);
+  try {
+    const projectTypes = await ProjectTypeModel.find({
+      project: projectId,
+    }).sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json(projectTypes);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 };
 
 /**
@@ -27,7 +36,7 @@ const getProjectTypes = async (req, res) => {
  */
 const createProjectType = async (req, res) => {
   // Geting input from the request body
-  const { name } = req.body;
+  const { name, projectId } = req.body;
 
   if (!name) {
     res.status(401).json("Name is requied");
@@ -41,8 +50,9 @@ const createProjectType = async (req, res) => {
     return;
   }
 
-  const projectType = await Project.create({
+  const projectType = await ProjectTypeModel.create({
     name,
+    project: projectId,
   });
 
   if (projectType) {

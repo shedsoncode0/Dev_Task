@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
 import { BsGoogle } from "react-icons/bs";
@@ -39,7 +41,7 @@ function Login() {
     };
 
     //API endpoint
-    const apiEndPoint = "https://api-devtask.onrender.com/api/auth/login";
+    const apiEndPoint = `${process.env.PORT}/api/auth/login`;
 
     // Sending the request with AXIOS
     axios
